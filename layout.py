@@ -9,7 +9,7 @@ with col2:
 
 if carregar_arquivo:
     
-    uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg','mp3','mp4'], accept_multiple_files=False, help='Insira seus arquivos aqui')
+    uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg'], accept_multiple_files=False, help='Insira seus arquivos aqui')
     st.divider()
     col3,col4 = st.columns(2)
     with col3:
@@ -73,6 +73,23 @@ if carregar_arquivo:
                 if pergunta != '':
                     st.divider()
                     response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
+                    st.info(response)
+                    botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
+                    if botao_download:
+                        delete_temp_file(f'{pergunta}.tmp')
+                else:
+                    alert()
+        elif '.mp3' in uploaded_file.name or '.mp4' in uploaded_file.name:
+            button = st.button("Perguntar (Video)")
+            if button:
+                if pergunta != '':
+                    if '.mp3' in uploaded_file.name:
+                        tipo = '.mp3'
+                    else:
+                        tipo = '.mp4'
+                    conteudo = create_temporary_file(tipo=tipo,file=uploaded_file)
+                    st.divider()
+                    response = ia(pergunta=pergunta,conteudo=conteudo)
                     st.info(response)
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                     if botao_download:
