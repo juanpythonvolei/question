@@ -1,6 +1,7 @@
 altair==5.5.0
 annotated-types==0.7.0
 attrs==24.3.0
+audioop-lts==0.2.1
 blinker==1.9.0
 cachetools==5.5.0
 certifi==2024.12.14
@@ -52,6 +53,9 @@ rpds-py==0.22.3
 rsa==4.9
 six==1.17.0
 smmap==5.0.2
+SpeechRecognition==3.14.0
+standard-aifc==3.13.0
+standard-chunk==3.13.0
 streamlit==1.41.1
 tenacity==9.0.0
 toml==0.10.2
