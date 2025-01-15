@@ -54,7 +54,7 @@ def ia(pergunta,conteudo):
     response = chat.send_message(f'Você é uma analista e sua função é reponder as peguntas se baseando nas informações que você está recebendo. Assim sendo responda a essa pergunta:{pergunta}') 
     return response.text
 
-def create_temporary_file(file):
-  with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+def create_temporary_file(tipo,file):
+  with tempfile.NamedTemporaryFile(delete=False, suffix=tipo) as tmp_file:
         tmp_file.write(file.read())
         return tmp_file.name
