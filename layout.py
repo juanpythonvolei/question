@@ -1,6 +1,4 @@
 import streamlit as st
-import google.generativeai as genai
-
 from asssistente import *
 
 col1,col2 = st.columns(2)
@@ -10,13 +8,21 @@ with col2:
     tirar_foto = st.toggle("Tirar uma foto")
 
 if carregar_arquivo:
-    uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg'], accept_multiple_files=False, help='Insira suas notas aqui', key='Faturamento')
-    pergunta = st.text_input(placeholder='Faça sua pergunta', label='Pergunta')
+    
+    uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg'], accept_multiple_files=False, help='Insira seus arquivos aqui')
+    st.divider()
+    col3,col4 = st.columns(2)
+    with col3:
+        pergunta = st.text_input(placeholder='Faça sua pergunta', label='Pergunta')
+    with col4:
+        audio_value = st.audio_input(label="")
+    if audio_value:
+            pergunta = audio(audio_value=audio_value)
     if uploaded_file:
         if '.pdf' in uploaded_file.name:
             conteudo = create_temporary_file(file=uploaded_file)
             botao_perguntar = st.button("Perguntar (PDF)")
-            if botao_perguntar:
+            if botao_perguntar and pergunta != '':
                 response = ia(pergunta=pergunta, conteudo=conteudo)
                 st.info(response)
                 botao_download  = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
@@ -26,7 +32,7 @@ if carregar_arquivo:
         elif '.xlsx' in uploaded_file.name:
             content = create_temporary_file(file=uploaded_file)
             button = st.button("Perguntar (EXCEL)")
-            if button:
+            if button and pergunta != '':
                 response = other_files_excel(file=content,pergunta=pergunta)
                 st.info(response)
                 botao_download = st.download_button("Faça o download da Resposta",response,f'{pergunta}')
@@ -36,16 +42,18 @@ if carregar_arquivo:
         elif '.csv' in uploaded_file.name:
             content = create_temporary_file(file=uploaded_file)
             button = st.button("Perguntar (CSV)")
-            if button:
+            if button and pergunta != '':
                 response = other_files_csv(file=content,pergunta=pergunta)
                 st.info(response)
                 botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                 delete_temp_file(content)
                 if botao_download:
                     delete_temp_file(f"{pergunta}.tmp")
+            else:
+                alert()
         elif '.jpeg' in uploaded_file.name or '.jpg' in uploaded_file.name:
             button = st.button("Perguntar (Imagem)")
-            if button:
+            if button and pergunta != '':
                 response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
                 st.info(response)
                 botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
@@ -55,7 +63,14 @@ if carregar_arquivo:
 elif tirar_foto:
     foto = st.camera_input("Tire aqui sua foto e a envie para a ia")
     if foto:
-        pergunta_da_foto = st.text_input(label="Pergunta",placeholder='Insira sua pergunta')
+        st.divider()
+        col5,col6 = st.columns(2)
+        with col5:
+            pergunta_da_foto = st.text_input(label="Pergunta",placeholder='Insira sua pergunta')
+        with col6:
+            audio_value_foto = st.audio_input(label="")
+            if audio_value_foto:
+                 pergunta = audio(audio_value=audio_value_foto)
         if pergunta_da_foto:
             botao_foto= st.button("Fazer pergunta da foto")
             if botao_foto:
@@ -65,3 +80,6 @@ elif tirar_foto:
                 if botao_download:
                     delete_temp_file(f'{pergunta_da_foto}.tmp')
             
+
+        
+       
