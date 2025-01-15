@@ -9,7 +9,7 @@ with col2:
 
 if carregar_arquivo:
     
-    uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg'], accept_multiple_files=False, help='Insira seus arquivos aqui')
+    uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg','mp3','mp4'], accept_multiple_files=False, help='Insira seus arquivos aqui')
     st.divider()
     col3,col4 = st.columns(2)
     with col3:
