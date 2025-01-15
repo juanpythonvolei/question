@@ -84,7 +84,7 @@ if carregar_arquivo:
             if button:
                 if pergunta != '':
                     st.divider()
-                    response = other_files_video()
+                    response = other_files_video(file=uploaded_file,pergunta=pergunta)
                     st.info(response)
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                     if botao_download:
