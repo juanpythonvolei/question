@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import speech_recognition as sr
 key = os.getenv('api')
-genai.configure(api_key='AIzaSyDxK2kxeqioFC2plNoPVdGUlAM0RHXyURs')
+
 
 @st.dialog("Atenção")
 def alert():
