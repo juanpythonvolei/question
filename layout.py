@@ -72,7 +72,9 @@ if carregar_arquivo:
             if button:
                 if pergunta != '':
                     st.divider()
-                    response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
+                    with st.status("Obtendo resposta",expanded=True,state='running') as status:
+                        response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
+                        status.update(label="Resposta obtida",state='complete')
                     st.info(response)
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                     if botao_download:
@@ -87,16 +89,20 @@ if carregar_arquivo:
                         tipo = '.mp3'
                     else:
                         tipo = '.mp4'
-                    conteudo = create_temporary_file(tipo=tipo,file=uploaded_file)
+                    with st.status("Obtendo resposta",expanded=True,state='running') as status:
+                        name = store_video(uploaded_file)
+                        status.update(label="Carregando Vídeo",state='running')
+                        response = ia(pergunta=pergunta,conteudo=f'{name}')
+                        status.update(label="Resposta obtida",state='complete')
                     st.divider()
-                    response = ia(pergunta=pergunta,conteudo=conteudo)
                     st.info(response)
+                    os.remove(f'{name}')
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                     if botao_download:
                         delete_temp_file(f'{pergunta}.tmp')
                 else:
                     alert()
-
+                    
 elif tirar_foto:
     foto = st.camera_input("Tire aqui sua foto e a envie para a ia")
     if foto:
