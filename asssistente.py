@@ -7,6 +7,10 @@ import speech_recognition as sr
 key = os.getenv('api')
 genai.configure(api_key=key)
 
+def store_video(file):
+    with tempfile.NamedTemporaryFile(dir=r'./videos',delete=False, suffix='.mp4') as tmp_file:
+        tmp_file.write(file.read())
+        return tmp_file.name
 
 @st.dialog("Atenção")
 def alert():
