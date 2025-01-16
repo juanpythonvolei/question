@@ -83,8 +83,13 @@ if carregar_arquivo:
             button = st.button("Perguntar (Video)")
             if button:
                 if pergunta != '':
+                    if '.mp3' in uploaded_file.name:
+                        tipo = '.mp3'
+                    else:
+                        tipo = '.mp4'
+                    conteudo = create_temporary_file(tipo=tipo,file=uploaded_file)
                     st.divider()
-                    response = other_files_video(file=uploaded_file,pergunta=pergunta)
+                    response = ia(pergunta=pergunta,conteudo=conteudo)
                     st.info(response)
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                     if botao_download:
