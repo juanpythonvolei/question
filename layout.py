@@ -12,7 +12,7 @@ if carregar_arquivo:
     st.divider()
     if escolha:
         if escolha == 'Arquivo único':
-            uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg','py','html','css','js','txt','docx'], accept_multiple_files=False, help='Insira seus arquivos aqui')
+            uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg','py','html','css','js','txt','docx','jpg'], accept_multiple_files=False, help='Insira seus arquivos aqui')
         else:
             uploaded_file = st.file_uploader("Seleção Arquivos", type=['pdf','xlsx','csv','py','html','css','js','txt','jpg','docx'], accept_multiple_files=True, help='Insira seus arquivos aqui')
         st.divider()
