@@ -38,6 +38,7 @@ if carregar_arquivo:
                             st.info(response)
                             
                             botao_download  = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
+                            st.audio('./audio/audio.mp3',format='audio/mpeg')
                             delete_temp_file(conteudo)
                             if botao_download:
                                 delete_temp_file(f"{pergunta}.tmp")
@@ -56,6 +57,7 @@ if carregar_arquivo:
                             st.info(response)
                             
                             botao_download = st.download_button("Faça o download da Resposta",response,f'{pergunta}')
+                            st.audio('./audio/audio.mp3',format='audio/mpeg')
                             delete_temp_file(content)
                             if botao_download:
                                 delete_temp_file(f"{pergunta}.tmp")
@@ -73,6 +75,7 @@ if carregar_arquivo:
                                     status.update(label="Resposta obtida",state='complete')
                             st.info(response)
                             botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
+                            st.audio('./audio/audio.mp3',format='audio/mpeg')
                             delete_temp_file(content)
                             if botao_download:
                                 delete_temp_file(f"{pergunta}.tmp")
@@ -83,11 +86,9 @@ if carregar_arquivo:
                     if button:
                         if pergunta != '':
                             st.divider()
-                            with st.status("Obtendo resposta",expanded=True,state='running') as status:
-                                response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
-                                create_audio(response)
-                                status.update(label="Resposta obtida",state='complete')
+                            response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
                             st.info(response)
+                            st.audio('./audio/audio.mp3',format='audio/mpeg')
                             botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                             if botao_download:
                                 delete_temp_file(f'{pergunta}.tmp')
@@ -127,9 +128,11 @@ if carregar_arquivo:
                         st.divider()
                         with st.status("Obtendo resposta",expanded=True,state='running') as status:
                             response = multiple_files(pergunta=pergunta,files=uploaded_file)
+                            create_audio(response)
                             status.update(label="Resposta obtida",state='complete')
                         st.info(response)
                         botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
+                        st.audio('./audio/audio.mp3',format='audio/mpeg')
                         if botao_download:
                                     delete_temp_file(f'{pergunta}.tmp')
                     else:
@@ -153,6 +156,7 @@ elif tirar_foto:
                     st.divider()
                     response = other_files_jpg(file=foto,pergunta=pergunta_da_foto)
                     st.info(response)
+                    st.audio('./audio/audio.mp3',format='audio/mpeg')
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta_da_foto}")
                     if botao_download:
                         delete_temp_file(f'{pergunta_da_foto}.tmp')
