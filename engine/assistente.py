@@ -91,7 +91,6 @@ def other_files_jpg(file,pergunta):
     chat = model.start_chat(history=[{"role": "user", "parts": [genai.upload_file(tmp_file.name)]}])
     with st.status("Obtendo resposta",expanded=True,state='running') as status:
                             response = chat.send_message(f'Você é uma analista e sua função é reponder as peguntas se baseando nas informações que você está recebendo. Assim sendo responda a essa pergunta:{pergunta}')
-                            create_audio(response)
                             status.update(label="Resposta obtida",state='complete')
     delete_temp_file(tmp_file.name)
     return response.text
