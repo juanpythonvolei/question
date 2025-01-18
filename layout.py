@@ -12,9 +12,9 @@ if carregar_arquivo:
     st.divider()
     if escolha:
         if escolha == 'Arquivo único':
-            uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg','py','html','css','js','txt','docx','mp3','mp4'], accept_multiple_files=False, help='Insira seus arquivos aqui')
+            uploaded_file = st.file_uploader("Seleção", type=['pdf','xlsx','csv','jpg','py','html','css','js','txt','docx','jpg','mp4','mp3'], accept_multiple_files=False, help='Insira seus arquivos aqui')
         else:
-            uploaded_file = st.file_uploader("Seleção Arquivos", type=['pdf','xlsx','csv','py','html','css','js','txt','jpg','docx','mp3','mp4'], accept_multiple_files=True, help='Insira seus arquivos aqui')
+            uploaded_file = st.file_uploader("Seleção Arquivos", type=['pdf','xlsx','csv','py','html','css','js','txt','jpg','docx','mp4','mp3'], accept_multiple_files=True, help='Insira seus arquivos aqui')
         st.divider()
         col3,col4 = st.columns(2)
         with col3:
@@ -33,8 +33,10 @@ if carregar_arquivo:
                             st.divider()
                             with st.status("Obtendo resposta",expanded=True,state='running') as status:
                                     response = ia(pergunta=pergunta, conteudo=conteudo)
+                                    create_audio(response)
                                     status.update(label="Resposta obtida",state='complete')
                             st.info(response)
+                            
                             botao_download  = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                             delete_temp_file(conteudo)
                             if botao_download:
@@ -49,8 +51,10 @@ if carregar_arquivo:
                             st.divider()
                             with st.status("Obtendo resposta",expanded=True,state='running') as status:
                                     response = other_files_excel(pergunta=pergunta, file=content)
+                                    create_audio(response)
                                     status.update(label="Resposta obtida",state='complete')
                             st.info(response)
+                            
                             botao_download = st.download_button("Faça o download da Resposta",response,f'{pergunta}')
                             delete_temp_file(content)
                             if botao_download:
@@ -65,6 +69,7 @@ if carregar_arquivo:
                             st.divider()
                             with st.status("Obtendo resposta",expanded=True,state='running') as status:
                                     response = other_files_csv(pergunta=pergunta, file=content)
+                                    create_audio(response)
                                     status.update(label="Resposta obtida",state='complete')
                             st.info(response)
                             botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
@@ -78,7 +83,10 @@ if carregar_arquivo:
                     if button:
                         if pergunta != '':
                             st.divider()
-                            response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
+                            with st.status("Obtendo resposta",expanded=True,state='running') as status:
+                                response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
+                                create_audio(response)
+                                status.update(label="Resposta obtida",state='complete')
                             st.info(response)
                             botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                             if botao_download:
@@ -92,16 +100,25 @@ if carregar_arquivo:
                             tipo = str(uploaded_file.name).split('.')
                             content = create_temporary_file(tipo=f'.{tipo[1]}',file=uploaded_file)
                             st.divider()
-                            if '.docx' in uploaded_file.name:
-                                response = read_word(pergunta=pergunta,conteudo=content)
-                            else:
-                                response = ia(pergunta=pergunta,conteudo=content)
+                            with st.status("Obtendo resposta",expanded=True,state='running') as status:
+                                if '.docx' in uploaded_file.name:
+                                    response = read_word(pergunta=pergunta,conteudo=content)
+                                else:
+                                    response = ia(pergunta=pergunta,conteudo=content)
+                                create_audio(response)
+                                status.update(label="Resposta obtida",state='complete')
                             st.info(response)
+                            st.audio('./audio/audio.mp3',format='audio/mpeg')
                             botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
                             if botao_download:
                                 delete_temp_file(f'{pergunta}.tmp')
                         else:
                             alert()
+            else:
+                try:
+                    delete_temp_file('./audio/audio.mp3')
+                except:
+                    pass
         else:
             if uploaded_file:
                 botao_arquivos = st.button("Perguntar (Vários arquivos)")
