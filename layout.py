@@ -87,6 +87,7 @@ if carregar_arquivo:
                         if pergunta != '':
                             st.divider()
                             response = other_files_jpg(file=uploaded_file,pergunta=pergunta)
+                            create_audio(response)
                             st.info(response)
                             st.audio('./audio/audio.mp3',format='audio/mpeg')
                             botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta}")
@@ -155,6 +156,7 @@ elif tirar_foto:
                 if pergunta_da_foto != '':
                     st.divider()
                     response = other_files_jpg(file=foto,pergunta=pergunta_da_foto)
+                    create_audio(response)
                     st.info(response)
                     st.audio('./audio/audio.mp3',format='audio/mpeg')
                     botao_download = st.download_button("Faça o download da Resposta",response,f"{pergunta_da_foto}")
