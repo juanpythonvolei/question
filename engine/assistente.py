@@ -7,6 +7,16 @@ import speech_recognition as sr
 key = os.getenv('api')
 genai.configure(api_key=key)
 model = genai.GenerativeModel('gemini-1.5-flash')
+
+
+def create_audio(text):
+    audio = gTTS(text,lang='pt')
+    if os.path.exists('./audio'):
+          audio.save('./audio/audio.mp3')
+    else:
+          os.makedirs('./audio')
+          audio.save('./audio/audio.mp3')
+
 def multiple_files(pergunta,files):
         uploaded_parts = []
         final = ''
