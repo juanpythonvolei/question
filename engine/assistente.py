@@ -102,7 +102,7 @@ def other_files_excel(file,pergunta):
 
 
 def ia(pergunta,conteudo,mime=None):
-    if '.jpg' in conteudo or '.jpeg' in conteudo:
+    if '.mp4' in conteudo or '.mp3' in conteudo:
           mime = 'video/mp4' 
     model = genai.GenerativeModel('gemini-1.5-flash') 
     chat = model.start_chat(history=[{"role":"user","parts":[genai.upload_file(conteudo,mime_type=mime)]}]) 
