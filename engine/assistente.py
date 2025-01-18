@@ -4,6 +4,7 @@ import tempfile
 import os
 import pandas as pd
 import speech_recognition as sr
+from gtts import gTTS
 key = os.getenv('api')
 genai.configure(api_key=key)
 model = genai.GenerativeModel('gemini-1.5-flash')
